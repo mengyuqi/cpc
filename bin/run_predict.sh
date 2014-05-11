@@ -52,7 +52,7 @@ c_blast_smp_client="$MYOWN_LOC/server/client.pl"
 # Step 0: detect necessary applications
 # 
 APP_BLAST=`which blastx 2> /dev/null`
-test -x "$APP_BLAST" || (echo "Can't find blastall on your path, eheck it!" > /dev/stderr && exit 1)
+test -x "$APP_BLAST" || (echo "Can't find blastx on your path, eheck it!" > /dev/stderr && exit 1)
 
 APP_FF=`which framefinder 2> /dev/null`	# FF == FrameFinder
 if test ! -x "$APP_FF"; then
@@ -104,7 +104,7 @@ blast_opts="$blast_opts -ungapped";  # un-gapped blast (Frith2006, PLoS)
 blast_opts="$blast_opts -threshold 14"; # Neighborhood word threshold score, default=12 (BLASTX 2.2.26)
 blast_opts="$blast_opts -num_threads 2";  # 2 CPUs, boost the performance
 blast_opts="$blast_opts -db $m_blast_db"	# database settings
-#blast_opts="$blast_opts -comp_based_stats F" (After BLASTX 2.2.27, this option is needed)
+blast_opts="$blast_opts -comp_based_stats F" #After BLASTX 2.2.27, this option is needed
 
 
 # Framefinder settings
@@ -119,7 +119,7 @@ old_pwd=`pwd`
 input_seq_size=`stat -Lc "%s" $arg_input_seq`;
 
 # local version
-(cat $arg_input_seq | $APP_BLAST -p blastx $blast_opts | tee $arg_working_dir/blastx.bls | perl $APP_BLAST2TAB | tee $arg_working_dir/blastx.table | perl $c_extract_blast_feat ) > $arg_working_dir/blastx.feat1 &
+(cat $arg_input_seq | $APP_BLAST $blast_opts | tee $arg_working_dir/blastx.bls | perl $APP_BLAST2TAB | tee $arg_working_dir/blastx.table | perl $c_extract_blast_feat ) > $arg_working_dir/blastx.feat1 &
 
 (cat $arg_input_seq | $APP_FF $ff_opts | tee $arg_working_dir/ff.fa1 | perl $c_extract_ff_feat ) > $arg_working_dir/ff.feat &
 
