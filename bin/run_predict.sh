@@ -51,7 +51,7 @@ c_blast_smp_client="$MYOWN_LOC/server/client.pl"
 # 
 # Step 0: detect necessary applications
 # 
-APP_BLAST=`which blastall 2> /dev/null`
+APP_BLAST=`which blastx 2> /dev/null`
 test -x "$APP_BLAST" || (echo "Can't find blastall on your path, eheck it!" > /dev/stderr && exit 1)
 
 APP_FF=`which framefinder 2> /dev/null`	# FF == FrameFinder
@@ -98,13 +98,14 @@ fi
 
 # BLASTX settings: Combining the BLAST and Frith2006(PLoS & RNA) protocols
 # XXX: the remote server will NOT use their own settings...
-blast_opts="-S 1";              # only the same strand
-blast_opts="$blast_opts -e 1e-10"; # as a quick setting (BLAST 9.3.2)
-blast_opts="$blast_opts -g F";  # un-gapped blast (Frith2006, PLoS)
-blast_opts="$blast_opts -f 14"; # Neighborhood word threshold score, default=12 (BLAST 9.3.2)
-blast_opts="$blast_opts -a 2";  # 2 CPUs, boost the performance
+blast_opts="-strand plus";              # only the same strand
+blast_opts="$blast_opts -evalue 1e-10"; # as a quick setting (BLASTX 2.2.26)
+blast_opts="$blast_opts -ungapped";  # un-gapped blast (Frith2006, PLoS)
+blast_opts="$blast_opts -threshold 14"; # Neighborhood word threshold score, default=12 (BLASTX 2.2.26)
+blast_opts="$blast_opts -num_threads 2";  # 2 CPUs, boost the performance
+blast_opts="$blast_opts -db $m_blast_db"	# database settings
+#blast_opts="$blast_opts -comp_based_stats F" (After BLASTX 2.2.27, this option is needed)
 
-blast_opts="$blast_opts -d $m_blast_db"	# database settings
 
 # Framefinder settings
 ff_opts="-r False -w $m_framefinder_model /dev/stdin"
