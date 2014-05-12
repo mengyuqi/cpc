@@ -73,7 +73,6 @@ APP_SVM_PREDICT="$LIB_DIR/libsvm/libsvm-2.81/svm-predict"
 APP_SVM_PREDICT2="$LIB_DIR/libsvm/libsvm-2.81/svm-predict2"
 test -x "$APP_SVM_PREDICT" || (echo "Can't find svm-predict on your path, eheck it!" > /dev/stderr && exit 1)
 test -x "$APP_SVM_PREDICT2" || (echo "Can't find svm-predict2 on your path, eheck it!" > /dev/stderr && exit 1)
-if (!ex
 
 APP_BLAST2TAB=$LIB_DIR/blast2table.pl
 if test ! -x "$APP_FF"; then
@@ -94,7 +93,7 @@ if test ! -f "${m_blast_db}.phr" -a ! -f "${m_blast_db}.00.phr"; then
     fi
 fi
 
-test -d $arg_working_dir || (mkdir $arg_working_dir  || (echo "Can't make the working space ($arg_working_dir), quitting...." > /dev/stderr && exit 1))
+
 
 # Step 1: run blastx & framefinder
 
@@ -106,6 +105,7 @@ blast_opts="$blast_opts -ungapped";  # un-gapped blast (Frith2006, PLoS)
 blast_opts="$blast_opts -threshold 14"; # Neighborhood word threshold score, default=12 (BLASTX 2.2.26)
 blast_opts="$blast_opts -num_threads 2";  # 2 CPUs, boost the performance
 blast_opts="$blast_opts -db $m_blast_db"	# database settings
+#blast_opts="$blast_opts -num_descriptions 10000 -num_alignments 10000";
 blast_opts="$blast_opts -comp_based_stats F" #After BLASTX 2.2.27, this option is needed
 
 
@@ -115,7 +115,8 @@ ff_opts="-r False -w $m_framefinder_model /dev/stdin"
 # Entry the working space...
 old_pwd=`pwd`
 
-# cd $arg_working_dir || (echo "Can't enter the working space ($arg_working_dir), quitting...." > /dev/stderr && exit 2)
+test -d $arg_working_dir || (mkdir $arg_working_dir  || (echo "Can't make the working space ($arg_working_dir), quitting...." > /dev/stderr && exit 1))
+
 
 # Determine the right mode (local or remote) for running BLAST
 input_seq_size=`stat -Lc "%s" $arg_input_seq`;
