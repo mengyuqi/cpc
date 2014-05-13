@@ -168,9 +168,9 @@ cat $arg_working_dir/test.svm0.predict  | perl -w $c_predict $arg_input_seq > $a
 output_plot_feat_homo=${arg_output_evd_plot_feat_base}.homo
 output_plot_feat_orf=${arg_output_evd_plot_feat_base}.orf
 
-cat $arg_working_dir/blastx.feat | perl -w $c_generate_plot_feats $arg_working_dir/blastx.bls $arg_working_dir/ff.fa | perl -w $c_split_plot_feats $output_plot_feat_homo $output_plot_feat_orf &
+cat $arg_working_dir/blastx.feat | perl -w $c_generate_plot_feats $arg_working_dir/blastx.table $arg_working_dir/ff.fa | perl -w $c_split_plot_feats $output_plot_feat_homo $output_plot_feat_orf &
 
-perl -w $c_index_blast_report $arg_working_dir/blastx.table > $arg_working_dir/blastx.index &
+perl -w $c_index_blast_report $arg_working_dir/blastx.bls > $arg_working_dir/blastx.index &
 
 wait;
 
