@@ -10,12 +10,7 @@ open FH_BLAST, "<$arg_input_blast_report" or die "Can't open BLAST input file ($
 my ($curr_query_id, $curr_record_start, $curr_record_end);
 
 while (my $l = <FH_BLAST>) {
-
-my $query_id = (split  " ",$l)[0]; 
- 
-unless ($curr_query_id) {$curr_query_id = $query_id;$curr_record_start=0;}
-
-unless ($query_id eq $curr_query_id) {
+  if ($l =~ /^BLASTX/) {
     my $curr_pos = tell() - length($l);
     $curr_record_end = $curr_pos - 1;
     
@@ -23,11 +18,13 @@ unless ($query_id eq $curr_query_id) {
       print join("\t", $curr_query_id, $curr_record_start, $curr_record_end), "\n";
     }
     $curr_record_start = $curr_pos;
- $curr_query_id= $query_id;
+  }
+  elsif ($l =~ /^Query= (\S+)/) {
+    $curr_query_id = $1;
+  }
 }
- }
 
 $curr_record_end = tell();
-if ($curr_query_id) {print join("\t", $curr_query_id, $curr_record_start, $curr_record_end), "\n";}
+print join("\t", $curr_query_id, $curr_record_start, $curr_record_end), "\n";
 
 close FH_BLAST;

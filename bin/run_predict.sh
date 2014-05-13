@@ -105,10 +105,7 @@ blast_opts="$blast_opts -ungapped";  # un-gapped blast (Frith2006, PLoS)
 blast_opts="$blast_opts -threshold 14"; # Neighborhood word threshold score, default=12 (BLASTX 2.2.26)
 blast_opts="$blast_opts -num_threads 2";  # 2 CPUs, boost the performance
 blast_opts="$blast_opts -db $m_blast_db"	# database settings
-#blast_opts="$blast_opts -num_descriptions 10000 -num_alignments 10000";
 blast_opts="$blast_opts -lcase_masking "
-blast_opts="$blast_opts -outfmt 6";
-blast_opts="$blast_opts -max_target_seqs 250";
 blast_opts="$blast_opts -comp_based_stats F" #After BLASTX 2.2.27, this option is needed
 
 
@@ -125,7 +122,7 @@ test -d $arg_working_dir || (mkdir $arg_working_dir  || (echo "Can't make the wo
 input_seq_size=`stat -Lc "%s" $arg_input_seq`;
 
 # local version
-(cat $arg_input_seq | $APP_BLAST  $blast_opts | tee $arg_working_dir/blastx.table | perl $c_extract_blast_feat ) > $arg_working_dir/blastx.feat1 &
+(cat $arg_input_seq | $APP_BLAST $blast_opts | tee $arg_working_dir/blastx.bls | perl $APP_BLAST2TAB | tee $arg_working_dir/blastx.table | perl $c_extract_blast_feat ) > $arg_working_dir/blastx.feat1 &
 
 (cat $arg_input_seq | $APP_FF $ff_opts | tee $arg_working_dir/ff.fa1 | perl $c_extract_ff_feat ) > $arg_working_dir/ff.feat &
 
@@ -171,7 +168,7 @@ cat $arg_working_dir/test.svm0.predict  | perl -w $c_predict $arg_input_seq > $a
 output_plot_feat_homo=${arg_output_evd_plot_feat_base}.homo
 output_plot_feat_orf=${arg_output_evd_plot_feat_base}.orf
 
-cat $arg_working_dir/blastx.feat | perl -w $c_generate_plot_feats $arg_working_dir/blastx.table $arg_working_dir/ff.fa | perl -w $c_split_plot_feats $output_plot_feat_homo $output_plot_feat_orf &
+cat $arg_working_dir/blastx.feat | perl -w $c_generate_plot_feats $arg_working_dir/blastx.bls $arg_working_dir/ff.fa | perl -w $c_split_plot_feats $output_plot_feat_homo $output_plot_feat_orf &
 
 perl -w $c_index_blast_report $arg_working_dir/blastx.table > $arg_working_dir/blastx.index &
 
