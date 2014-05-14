@@ -64,7 +64,7 @@ echo "Usage: run_predict.sh  [option]  input_seq output_file
              ";
 }
 
-Arguments=`getopt -o w:ke:p:d:h -l work-dir:,keep-tmp,evidence-files:,num-threads:,date_base,help -n 'run_predict.sh' -- "$@"`
+Arguments=`getopt -o w:ke:p:d:h -l work-dir:,keep-tmp,evidence-files:,num-threads:,data_base:,help -n 'run_predict.sh' -- "$@"`
 
 
 if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
