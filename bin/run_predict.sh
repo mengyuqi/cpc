@@ -59,7 +59,7 @@ echo "Usage: run_predict.sh  [option]  input_seq output_file
                        default = none (i.e. do not generate the evidence files)
 -p/--num-threads       number of CPUs, default = 1
 -d/--data_base         database used for blastx 
-                       default = data/prot_db
+                       default = \$CPC_HOME/data/prot_db
 -h/--help              help
              ";
 }

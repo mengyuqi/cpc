@@ -15,8 +15,7 @@ http://www.ncbi.nlm.nih.gov/blast/
 
 b. A relatively comprehensive protein database. UniRef90 and NCBI nr
 should be both okay.  
-The database should be named as "prot_db", and put under the data/
-subdir.
+
 
 3) Install
 
@@ -41,7 +40,7 @@ c. Format BLAST database, named it as "prot_db", and put under the
 cpc/data/.
 
 tom@linux$ cd $CPC_HOME/data
-tom@linux$ formatdb -i (your_fasta_file) -p T -n prot_db
+tom@linux$ makeblastdb -in (your_fasta_file) -dbtype prot -out prot_db
 
 You can also use -d/--data_base to point the database you want to use
 
@@ -56,7 +55,7 @@ run_predict.sh  [option]  input_seq output_file
                        default = none (i.e. do not generate the evidence files)
 -p/--num-threads       number of CPUs, default = 1
 -d/--data_base         database used for blastx 
-                       default = data/prot_db
+                       default = $CPC_HOME/data/prot_db
 -h/--help              help
 
 See the website for tutorial and more details. (http://cpc.cbi.pku.edu.cn)
