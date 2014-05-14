@@ -43,10 +43,21 @@ cpc/data/.
 tom@linux$ cd $CPC_HOME/data
 tom@linux$ formatdb -i (your_fasta_file) -p T -n prot_db
 
+You can also use -d/--data_base to point the database you want to use
+
 4) Run the predict
 
-tom@linux$ cd $CPC_HOME
-tom@linux$ bin/run_predict.sh (input_seq) (result_in_table) (working_dir) (result_evidence)
+Usage: 
+run_predict.sh  [option]  input_seq output_file
+-w/--work-dir          path to working directory, (i.e. the original third parameter)
+                       default = create a working directory $TMP
+-k/--keep-tmp          keep working directory after exit, default = FALSE
+-e/--evidence-files    prefix for evidence, (i.e. the original last parameter)
+                       default = none (i.e. do not generate the evidence files)
+-p/--num-threads       number of CPUs, default = 1
+-d/--data_base         database used for blastx 
+                       default = data/prot_db
+-h/--help              help
 
 See the website for tutorial and more details. (http://cpc.cbi.pku.edu.cn)
 
