@@ -21,11 +21,11 @@ should be both okay.
 
 a. Unpack the tarball:
 
-tom@linux$ gzip -dc cpc-0.9-r2.tar.gz | tar xf -
+tom@linux$ gzip -dc cpc.tar.gz | tar xf -
 
 b. Build third-part packages: 
 
-tom@linux$ cd cpc-0.9-r2
+tom@linux$ cd cpc
 tom@linux$ export CPC_HOME="$PWD"
 tom@linux$ cd libs/libsvm
 tom@linux$ gzip -dc libsvm-2.81.tar.gz | tar xf -
@@ -56,6 +56,8 @@ run_predict.sh  [option]  input_seq output_file
 -p/--num-threads       number of CPUs, default = 1
 -d/--data_base         database used for blastx 
                        default = $CPC_HOME/data/prot_db
+-m/--model-file        Model file used for libsvm_predict
+                       default = \$CPC_HOME/data/libsvm.model0
 -h/--help              help
 
 See the website for tutorial and more details. (http://cpc.cbi.pku.edu.cn)

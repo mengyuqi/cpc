@@ -60,11 +60,13 @@ echo "Usage: run_predict.sh  [option]  input_seq output_file
 -p/--num-threads       number of CPUs, default = 1
 -d/--data_base         database used for blastx 
                        default = \$CPC_HOME/data/prot_db
+-m/--model-file        Model file used for libsvm_predict
+                       default = \$CPC_HOME/data/libsvm.model0
 -h/--help              help
              ";
 }
 
-Arguments=`getopt -o w:ke:p:d:h -l work-dir:,keep-tmp,evidence-files:,num-threads:,data_base:,help -n 'run_predict.sh' -- "$@"`
+Arguments=`getopt -o w:ke:p:d:m:h -l work-dir:,keep-tmp,evidence-files:,num-threads:,data_base:,model-file:,help -n 'run_predict.sh' -- "$@"`
 
 
 if [ $? != 0 ] ; then echo "Terminating..." >&2 ; exit 1 ; fi
@@ -79,6 +81,7 @@ while true ; do
                 -p|--num-threads) arg_num_threads=$2 ; shift 2 ;;
                 -d|--data_base) m_blast_db=$2 ; shift 2 ;;
                 -k|--keep-tmp) arg_temp="TRUE"; shift;;
+                -m|--model-file) m_libsvm_model0=$2; shift 2;;
                 -h|--help) printhelp ;exit 1 ;;    
                 --) shift ; break ;;
                 *) printhelp ; exit 1 ;;
