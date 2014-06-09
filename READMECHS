@@ -1,0 +1,60 @@
+
+1) 介绍
+
+Coding Potential Calculator (CPC)利用基于支持向量机的机器学习模型来获得转录本的编码潜能（即鉴定RNA/cDNA是否能编码蛋白）。
+其基于七个生物学上面具有意义特征来进行鉴定，通过输入fasta格式的序列，可以得到对是否编码的结果和对这些结果进行支持的依据。
+
+
+2) 预先准备:
+
+a. NCBI的blast+包，本地版本可以从此链接下载：
+http://www.ncbi.nlm.nih.gov/blast/
+
+b. 需要用来比较的蛋白序列数据库，NCBI的nr和UniRef90都是可以的.  
+
+
+3) 安装
+
+a. 解压文件:
+
+tom@linux$ gzip -dc cpc.tar.gz | tar xf -
+
+b. 构建第三方包: 
+
+tom@linux$ cd cpc
+tom@linux$ export CPC_HOME="$PWD"
+tom@linux$ cd libs/libsvm
+tom@linux$ gzip -dc libsvm-2.81.tar.gz | tar xf -
+tom@linux$ cd libsvm-2.81
+tom@linux$ make clean && make
+tom@linux$ cd ../..
+tom@linux$ gzip -dc estate.tar.gz | tar xf -
+tom@linux$ cd estate
+tom@linux$ make clean && make
+
+c. 将构建好的blast+的数据库命名为"prot_db"放到cpc/data/的文件夹下.
+
+tom@linux$ cd $CPC_HOME/data
+tom@linux$ makeblastdb -in (your_fasta_file) -dbtype prot -out prot_db
+
+您也可以通过-d/--data_base参数来指定想要使用的数据库文件
+
+4) 进行预测
+
+使用方法: 
+run_predict.sh  [option]  input_seq output_file
+-w/--work-dir          工作目录,存放计算时所需的临时文件 (i.e. 以前版本的第三个参数)
+                       默认：建立一个$TMP的文件夹存放
+-k/--keep-tmp          (FLASE/TRUE)是否在结束之后保存工作目录文件, 默认：FALSE 不保存
+-e/--evidence-files    支持文件名称, (i.e. 以前版本的最后一个参数)
+                       默认：无 (i.e.不生成证据文件)
+-p/--num-threads       使用的CPU数目, 默认： 1
+-d/--data_base         使用的blastx的数据库 
+                       默认： $CPC_HOME/data/prot_db
+-m/--model-file        用于libsvm预测的模型
+                       默认： \$CPC_HOME/data/libsvm.model0
+-h/--help              帮助
+
+网站上可以阅读更详细的说明和教程. (http://cpc.cbi.pku.edu.cn)
+
+联系方式: cpc@mail.cbi.pku.edu.cn

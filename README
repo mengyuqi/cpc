@@ -50,7 +50,7 @@ Usage:
 run_predict.sh  [option]  input_seq output_file
 -w/--work-dir          path to working directory, (i.e. the original third parameter)
                        default = create a working directory $TMP
--k/--keep-tmp          keep working directory after exit, default = FALSE
+-k/--keep-tmp          (FLASE/TRUE)keep working directory after exit, default = FALSE
 -e/--evidence-files    prefix for evidence, (i.e. the original last parameter)
                        default = none (i.e. do not generate the evidence files)
 -p/--num-threads       number of CPUs, default = 1
